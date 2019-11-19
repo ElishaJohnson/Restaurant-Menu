@@ -29,7 +29,7 @@ public class Menu {
                 System.out.println();
                 if (item.isNew()) { System.out.print("*NEW* "); }
                 System.out.println(item.getName());
-                System.out.println(item.getDescription());
+                if (!item.getDescription().equals("")) System.out.println(item.getDescription());
                 System.out.println("$" + df2.format(item.getPrice()));
             }
         }
@@ -53,7 +53,7 @@ public class Menu {
         for (MenuItem item : this.menuItems) {
             if (item.isNew()) {
                 System.out.println("\n" + item.getName());
-                System.out.println(item.getDescription());
+                if (!item.getDescription().equals("")) System.out.println(item.getDescription());
                 System.out.println("$" + df2.format(item.getPrice()));
             }
         }
@@ -69,21 +69,77 @@ public class Menu {
     static MenuItem inputItem() {
         Scanner input = new Scanner(System.in);
         MenuItem newItem = new MenuItem();
-        System.out.print("Name: ");
-        String name = input.nextLine();
-        newItem.setName(name);
-        System.out.print("Description: ");
-        String description = input.nextLine();
-        newItem.setDescription(description);
-        System.out.print("Category: ");
-        String category = input.nextLine();
-        newItem.setCategory(category);
-        System.out.print("Price: $");
-        double price = input.nextDouble();
-        newItem.setPrice(price);
-        System.out.print("New item? true/false: ");
-        boolean isNew = input.nextBoolean();
-        newItem.setIsNew(isNew);
+        boolean validEntry;
+        do {
+            validEntry = true;
+            try {
+                System.out.print("Name: ");
+                String name = input.nextLine();
+                if (name.equals("")) {
+                    validEntry = false;
+                } else {
+                    newItem.setName(name);
+                }
+            } catch (Exception ignored) {
+                System.out.println("INVALID ENTRY");
+                validEntry = false;
+            }
+        } while (!validEntry);
+        do {
+            validEntry = true;
+            try {
+                System.out.print("Description: ");
+                String description = input.nextLine();
+                newItem.setDescription(description);
+            } catch (Exception ignored) {
+                System.out.println("INVALID ENTRY");
+                validEntry = false;
+            }
+        } while (!validEntry);
+        do {
+            validEntry = true;
+            try {
+                System.out.print("Category: ");
+                String category = input.nextLine();
+                if (category.equals("")) {
+                    validEntry = false;
+                } else {
+                    newItem.setCategory(category);
+                }
+            } catch (Exception ignored) {
+                System.out.println("INVALID ENTRY");
+                validEntry = false;
+            }
+        } while (!validEntry);
+        do {
+            validEntry = true;
+            try {
+                System.out.print("Price: $");
+                double price = input.nextDouble();
+                if (price <= 0) {
+                    validEntry = false;
+                } else {
+                    newItem.setPrice(price);
+                }
+            } catch (Exception ignored) {
+                System.out.println("INVALID ENTRY");
+                validEntry = false;
+            }
+            input.nextLine();
+        } while (!validEntry);
+        do {
+            validEntry = true;
+            try {
+                System.out.print("New item? true/false: ");
+                boolean isNew = input.nextBoolean();
+                newItem.setIsNew(isNew);
+            } catch (Exception ignored) {
+                System.out.println("INVALID ENTRY");
+                validEntry = false;
+            }
+            input.nextLine();
+        } while (!validEntry);
+
         return newItem;
     }
 }

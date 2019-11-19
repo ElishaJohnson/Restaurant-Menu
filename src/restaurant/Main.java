@@ -10,6 +10,7 @@ public class Main {
         Menu menu = new Menu();
         boolean exit = false;
         do {
+            int selection;
             if (menu.getLastUpdated() != null) { System.out.println("\nMenu last updated " + menu.getLastUpdated()); }
             System.out.println("\n0 - Add a menu item");
             System.out.println("1 = Remove menu item");
@@ -17,7 +18,11 @@ public class Main {
             System.out.println("3 - List new items");
             System.out.println("4 - View entire menu");
             System.out.println("5 - Exit");
-            int selection = input.nextInt();
+            try {
+                selection = input.nextInt();
+            } catch (Exception ignored) {
+                selection = -1;
+            }
             input.nextLine();
             if (selection == 0) {
                 menu.addMenuItem(menu.inputItem());
@@ -34,9 +39,10 @@ public class Main {
                 menu.listNewItems();
             } else if (selection == 4) {
                 menu.printMenu();
-            } else {
-
+            } else  if (selection == 5) {
                 exit = true;
+            } else {
+                System.out.println("INVALID ENTRY");
             }
         } while (!exit);
     }
