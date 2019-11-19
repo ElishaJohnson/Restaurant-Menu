@@ -12,7 +12,16 @@ public class Menu {
     Date getLastUpdated() { return lastUpdated; }
     void setLastUpdated(Date lastUpdated) { this.lastUpdated = lastUpdated; }
     ArrayList<MenuItem> getMenuItems() { return menuItems; }
-    void addMenuItem(MenuItem menuItem) { this.menuItems.add(menuItem); }
+    void addMenuItem(MenuItem menuItem) {
+        for (MenuItem item : menuItems) {
+            if (item.equals(menuItem)) {
+                System.out.println(menuItem.getName() + " is already on the menu.");
+                return;
+            }
+        }
+        this.menuItems.add(menuItem);
+    }
+
     void listByCategory(String category) {
         System.out.println("\n" + category.toUpperCase() + "S");
         for (MenuItem item : this.menuItems) {
@@ -25,6 +34,20 @@ public class Menu {
             }
         }
     }
+    void printMenu() {
+        System.out.println("-RESTAURANT MENU-");
+        System.out.println("Last updated " + this.getLastUpdated());
+        for(String category : this.categories()) {
+            listByCategory(category);
+        }
+    }
+    private ArrayList<String> categories() {
+        ArrayList<String> categoryList = new ArrayList<>();
+        for (MenuItem item: this.menuItems) {
+            if (!categoryList.contains(item.getCategory())) { categoryList.add(item.getCategory()); }
+        }
+        return categoryList;
+    }
     void listNewItems() {
         System.out.println("\nNEW ITEMS");
         for (MenuItem item : this.menuItems) {
@@ -32,6 +55,14 @@ public class Menu {
                 System.out.println("\n" + item.getName());
                 System.out.println(item.getDescription());
                 System.out.println("$" + df2.format(item.getPrice()));
+            }
+        }
+    }
+    void removeItem(String itemToRemove) {
+        for (int i = 0; i < this.menuItems.size(); i++) {
+            if (this.menuItems.get(i).getName().toLowerCase().equals(itemToRemove.toLowerCase())) {
+                this.menuItems.remove(i);
+                return;
             }
         }
     }
